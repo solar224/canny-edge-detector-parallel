@@ -25,18 +25,21 @@ set(HEADERS canny.h)
 find_package(OpenCV REQUIRED)
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-# find_package(Torch REQUIRED)
-# set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORCH_CXX_FLAGS}")
+# find pthread
+find_package(Threads REQUIRED)
 
 # add local files
 add_library(
   canny.hpp
   canny.cpp
+  canny_parallel.cpp
 )
 
-
 add_executable(canny main.cpp)
+target_link_libraries(canny "${OpenCV_LIBS}" canny.hpp Threads::Threads)
 
-target_link_libraries(canny "${OpenCV_LIBS}" canny.hpp)
+add_executable(benchmark benchmark.cpp)
+target_link_libraries(benchmark "${OpenCV_LIBS}" canny.hpp Threads::Threads)
 
 set_property(TARGET canny PROPERTY CXX_STANDARD 17)
+set_property(TARGET benchmark PROPERTY CXX_STANDARD 17)

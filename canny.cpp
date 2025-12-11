@@ -47,8 +47,8 @@ void cannyEdgeDetection(std::string readLocation, std::string writeLocation, dou
     std::vector<int> pixelsCanny = cannyFilter(pixelsGray, sizeRows, sizeCols, 1, lowerThreshold, higherThreshold);
     arrayToImg(pixelsCanny, pixelPtrGray, sizeRows, sizeCols, 1);
 
-    cv::imshow("CannyEdgeDetection", imgGrayscale);
-    cv::waitKey(0);
+    // cv::imshow("CannyEdgeDetection", imgGrayscale);
+    // cv::waitKey(0);
 
     cv::imwrite(writeLocation, imgGrayscale);
 }
