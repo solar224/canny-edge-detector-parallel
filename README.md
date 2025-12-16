@@ -1,16 +1,6 @@
 # Canny Edge Detector with Pthread Parallelization
 
-A Canny edge detector written in C++ which only uses OpenCV for file reading/writing. The canny edge detection implements the following without any external libraries: Gaussian blur, Sobel filter as the edge detection operator, non-maximum suppression, and double thresholding.
-
-**This version includes pthread parallelization for improved performance (1-6 threads).**
-
-## Example
-
-### Original Image
-<img src="images/Sukuna.jpg" alt="Original Image" width="400">
-
-### Image after Canny Edge Detection
-<img src="images/SukunaCanny.jpg" alt="Image after Canny Edge Detection" width="400">
+This project implements a high-performance Canny Edge Detector in C++ from scratch, utilizing Pthreads for row-based parallel processing. It demonstrates manual implementation of core computer vision concepts—including Gaussian blur, gradient computation (Sobel), non-maximum suppression, and double thresholding—without relying on external libraries for the algorithms themselves. OpenCV is used strictly for reading and writing image files.
 
 ---
 
