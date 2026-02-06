@@ -8,7 +8,7 @@ This project implements a high-performance Canny Edge Detector in C++ from scrat
 
 ### Using Pre-built Binaries (Recommended)
 
-Download the latest release from the [Releases page](https://github.com/solar224/canny-edge-detector-parallel/releases):
+Download the latest release from the [GitHub Releases page](../../releases):
 
 1. Download the `canny-edge-detector-vX.X.X-linux-x64.tar.gz` file
 2. Extract the archive:
