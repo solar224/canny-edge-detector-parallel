@@ -1,0 +1,98 @@
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'  # Trigger on version tags like v1.0.0, v1.2.3, etc.
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Install dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake libopencv-dev build-essential
+      
+      - name: Create build directory
+        run: mkdir build
+      
+      - name: Configure with CMake
+        run: |
+          cd build
+          cmake ..
+      
+      - name: Build project
+        run: |
+          cd build
+          make -j$(nproc)
+      
+      - name: Prepare release artifacts
+        run: |
+          mkdir -p release
+          cp build/canny release/
+          cp build/benchmark release/
+          cp README.md release/
+          cp LICENSE release/
+          tar -czf canny-edge-detector-${{ github.ref_name }}-linux-x64.tar.gz -C release .
+      
+      - name: Extract version from tag
+        id: get_version
+        run: echo "VERSION=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+      
+      - name: Create Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            canny-edge-detector-${{ github.ref_name }}-linux-x64.tar.gz
+          body: |
+            # Canny Edge Detector ${{ steps.get_version.outputs.VERSION }}
+            
+            ## What's Included
+            
+            This release includes pre-built binaries for Linux (x64):
+            - `canny` - Main edge detection program
+            - `benchmark` - Performance benchmarking tool
+            - Documentation (README.md)
+            - License file
+            
+            ## Installation
+            
+            1. Download the `canny-edge-detector-${{ github.ref_name }}-linux-x64.tar.gz` file
+            2. Extract: `tar -xzf canny-edge-detector-${{ github.ref_name }}-linux-x64.tar.gz`
+            3. Run: `./canny` or `./benchmark`
+            
+            ## Prerequisites
+            
+            You need OpenCV libraries installed on your system:
+            ```bash
+            # Ubuntu/Debian
+            sudo apt install libopencv-dev
+            ```
+            
+            ## Usage
+            
+            ### Basic Usage
+            ```bash
+            ./canny              # Single thread, default image
+            ./canny 4            # 4 threads
+            ./canny 6 input.jpg output.jpg  # Custom input/output
+            ```
+            
+            ### Benchmark
+            ```bash
+            ./benchmark          # Run performance tests
+            ```
+            
+            For more details, see the README.md file included in the release.
+          generate_release_notes: true
+          draft: false
+          prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
