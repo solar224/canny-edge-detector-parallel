@@ -209,46 +209,6 @@ double higherThreshold = 0.1;   // Higher threshold ratio
 
 ---
 
-## Creating Releases
-
-This project uses automated GitHub Actions workflows to create releases. Here's how to create a new release:
-
-### For Maintainers
-
-1. **Update version in CMakeLists.txt** (if needed):
-   ```cmake
-   project(canny VERSION X.Y.Z)
-   ```
-
-2. **Commit your changes**:
-   ```bash
-   git add .
-   git commit -m "Prepare for release vX.Y.Z"
-   git push
-   ```
-
-3. **Create and push a version tag**:
-   ```bash
-   git tag -a vX.Y.Z -m "Release version X.Y.Z"
-   git push origin vX.Y.Z
-   ```
-
-4. **Automated workflow will**:
-   - Build the project with all dependencies
-   - Create compiled binaries for Linux x64
-   - Package everything into a tar.gz archive
-   - Create a GitHub Release with the binaries
-   - Generate release notes automatically
-
-### Versioning
-
-This project follows [Semantic Versioning](https://semver.org/):
-- **MAJOR** version (X.0.0): Incompatible API changes
-- **MINOR** version (0.X.0): New functionality in a backwards-compatible manner
-- **PATCH** version (0.0.X): Backwards-compatible bug fixes
-
----
-
 ## License
 
 This project is open source. Feel free to use and modify as needed.
